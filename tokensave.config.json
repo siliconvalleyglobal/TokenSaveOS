@@ -1,0 +1,23 @@
+{
+  "aiModels": {
+    "simple": "claude-haiku-4-5",
+    "medium": "claude-sonnet-4-6",
+    "complex": "claude-opus-4-6"
+  },
+  "context": {
+    "maxTokens": 8000,
+    "ignorePatterns": ["*.test.ts", "dist/*", "node_modules/*", ".git/*", ".env*"]
+  },
+  "memory": {
+    "autoUpdate": true,
+    "schemaVersion": 1
+  },
+  "cache": {
+    "enabled": true,
+    "provider": "anthropic"
+  },
+  "eval": {
+    "gateOnRegression": true,
+    "minSuccessRate": 0.9
+  }
+}
