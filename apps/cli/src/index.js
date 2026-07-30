@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * TokenSaveOS Executable CLI (v1.1)
+ * TokenSaveOS Executable CLI
  */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -15,7 +15,7 @@ import { SkillManager } from '@tokensaveos/skill-manager';
 import { TokenSaveMCPServer } from '@tokensaveos/mcp-server';
 const command = process.argv[2] || 'help';
 async function main() {
-    console.log(`\x1b[36m⚡ TokenSaveOS v1.1.0\x1b[0m — AI Agent Optimization Platform\n`);
+    console.log(`\x1b[36m⚡ TokenSaveOS v1.0.0\x1b[0m — AI Agent Optimization Platform\n`);
     const config = loadConfig();
     const cache = new CacheManager();
     const memory = new MemoryEngine();

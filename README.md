@@ -1,6 +1,6 @@
 # TokenSaveOS ⚡
 
-### *An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System (v1.1)*
+### *An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System*
 ***A Project by [SILICON VALLEY GLOBAL PH INC](https://svg.ph)***
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
