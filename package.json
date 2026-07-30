@@ -1,6 +1,6 @@
 {
   "name": "@svgph/tokensaveos",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System",
   "main": "apps/cli/src/index.ts",
   "bin": {
@@ -17,6 +17,30 @@
   "bugs": {
     "url": "https://github.com/siliconvalleyglobal/TokenSaveOS/issues"
   },
+  "keywords": [
+    "ai",
+    "llm",
+    "claude",
+    "claude-code",
+    "openai",
+    "gpt-4",
+    "anthropic",
+    "mcp",
+    "model-context-protocol",
+    "agent",
+    "ai-agent",
+    "context-window",
+    "token-optimization",
+    "prompt-compression",
+    "prompt-caching",
+    "cost-optimization",
+    "tiktoken",
+    "tokenizer",
+    "tokensave",
+    "tokensaveos",
+    "svgph",
+    "siliconvalleyglobal"
+  ],
   "publishConfig": {
     "access": "public"
   },
