@@ -18,6 +18,11 @@ export interface CacheConfig {
     enabled: boolean;
     provider: 'anthropic' | 'openai' | 'ollama';
 }
+export interface CompressionConfig {
+    aggressivePrune: boolean;
+    removeComments: boolean;
+    minifyJson: boolean;
+}
 export interface EvalConfig {
     gateOnRegression: boolean;
     minSuccessRate: number;
@@ -27,6 +32,7 @@ export interface TokenSaveConfig {
     context: ContextConfig;
     memory: MemoryConfig;
     cache: CacheConfig;
+    compression?: CompressionConfig;
     eval: EvalConfig;
 }
 export interface RankedFile {
@@ -45,9 +51,12 @@ export interface CompressionResult {
 }
 export interface ModelRouteDecision {
     selectedModel: string;
-    tier: 'simple' | 'medium' | 'complex';
+    tier?: 'simple' | 'medium' | 'complex';
     rationale: string;
     escalated?: boolean;
+    tokenCount?: number;
+    estimatedCostUSD?: number;
+    savingsVsDefaultUSD?: number;
 }
 export interface CacheStats {
     hits: number;

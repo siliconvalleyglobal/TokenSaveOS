@@ -1,5 +1,5 @@
 /**
- * Configuration loader and Secret Redaction utility
+ * Configuration & Secret Redaction Engine (Section 10 & 11)
  */
 
 import * as fs from 'fs';
@@ -14,7 +14,7 @@ export const DEFAULT_CONFIG: TokenSaveConfig = {
   },
   context: {
     maxTokens: 8000,
-    ignorePatterns: ["*.test.ts", "dist/*", "node_modules/*", ".git/*", ".env*"]
+    ignorePatterns: ["*.test.ts", "dist/*", ".env*", ".git/*", "node_modules/*"]
   },
   memory: {
     autoUpdate: true,
@@ -24,27 +24,35 @@ export const DEFAULT_CONFIG: TokenSaveConfig = {
     enabled: true,
     provider: "anthropic"
   },
+  compression: {
+    aggressivePrune: true,
+    removeComments: true,
+    minifyJson: true
+  },
   eval: {
     gateOnRegression: true,
     minSuccessRate: 0.9
   }
 };
 
-const SECRET_PATTERNS = [
-  /sk-[a-zA-Z0-9]{20,}/g,
-  /npm_[a-zA-Z0-9]{30,}/g,
-  /ghp_[a-zA-Z0-9]{30,}/g,
-  /bearer\s+[a-zA-Z0-9\-_\.=]+/gi,
-  /password\s*=\s*['"][^'"]+['"]/gi,
-  /api[_-]?key\s*=\s*['"][^'"]+['"]/gi
-];
-
 export function redactSecrets(text: string): string {
-  if (!text) return "";
+  if (!text) return text;
+  
   let sanitized = text;
-  for (const pattern of SECRET_PATTERNS) {
-    sanitized = sanitized.replace(pattern, "[REDACTED_SECRET]");
+
+  // Redact common secret patterns
+  const patterns = [
+    /sk-[a-zA-Z0-9]{20,}/g,                        // OpenAI keys
+    /npm_[a-zA-Z0-9]{30,}/g,                       // npm tokens
+    /ghp_[a-zA-Z0-9]{30,}/g,                       // GitHub PATs
+    /bearer\s+[a-zA-Z0-9\-_\.=]+/gi,                // Bearer tokens
+    /(password|secret|apikey|api_key)\s*[:=]\s*["']?[^"'\s]+["']?/gi // General key-value secrets
+  ];
+
+  for (const pattern of patterns) {
+    sanitized = sanitized.replace(pattern, '[REDACTED_SECRET]');
   }
+
   return sanitized;
 }
 
@@ -54,9 +62,16 @@ export function loadConfig(configPath?: string): TokenSaveConfig {
     try {
       const raw = fs.readFileSync(targetPath, 'utf-8');
       const parsed = JSON.parse(raw);
-      return { ...DEFAULT_CONFIG, ...parsed };
+      return {
+        ...DEFAULT_CONFIG,
+        ...parsed,
+        compression: {
+          ...DEFAULT_CONFIG.compression,
+          ...(parsed.compression || {})
+        }
+      };
     } catch (e) {
-      console.warn(`Failed to parse config at ${targetPath}, falling back to defaults.`);
+      // fallback to default on read/parse error
     }
   }
   return DEFAULT_CONFIG;

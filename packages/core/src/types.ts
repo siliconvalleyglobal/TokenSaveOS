@@ -23,6 +23,12 @@ export interface CacheConfig {
   provider: 'anthropic' | 'openai' | 'ollama';
 }
 
+export interface CompressionConfig {
+  aggressivePrune: boolean;
+  removeComments: boolean;
+  minifyJson: boolean;
+}
+
 export interface EvalConfig {
   gateOnRegression: boolean;
   minSuccessRate: number;
@@ -33,6 +39,7 @@ export interface TokenSaveConfig {
   context: ContextConfig;
   memory: MemoryConfig;
   cache: CacheConfig;
+  compression?: CompressionConfig;
   eval: EvalConfig;
 }
 

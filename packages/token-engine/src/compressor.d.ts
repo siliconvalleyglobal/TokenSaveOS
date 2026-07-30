@@ -1,5 +1,5 @@
 /**
- * Token Optimization & Compression Engine
+ * Token Optimization & Compression Engine (Module 2)
  */
 import { CompressionResult } from '@tokensaveos/core';
 import { ModelProvider } from './tokenizer.js';

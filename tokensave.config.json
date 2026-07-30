@@ -6,7 +6,7 @@
   },
   "context": {
     "maxTokens": 8000,
-    "ignorePatterns": ["*.test.ts", "dist/*", "node_modules/*", ".git/*", ".env*"]
+    "ignorePatterns": ["*.test.ts", "dist/*", ".env*", ".git/*", "node_modules/*"]
   },
   "memory": {
     "autoUpdate": true,
@@ -15,6 +15,11 @@
   "cache": {
     "enabled": true,
     "provider": "anthropic"
+  },
+  "compression": {
+    "aggressivePrune": true,
+    "removeComments": true,
+    "minifyJson": true
   },
   "eval": {
     "gateOnRegression": true,

@@ -1,5 +1,5 @@
 /**
- * Token Optimization & Compression Engine
+ * Token Optimization & Compression Engine (Module 2)
  */
 
 import { CompressionResult, redactSecrets } from '@tokensaveos/core';
@@ -20,7 +20,7 @@ export function compressPrompt(rawText: string, options: CompressOptions = {}): 
     removeComments = true,
     dedupLines = true,
     minifyJson = true,
-    aggressivePrune = false,
+    aggressivePrune = true, // Default to true per v1.1 spec
     provider = 'anthropic'
   } = options;
 
@@ -71,24 +71,33 @@ export function compressPrompt(rawText: string, options: CompressOptions = {}): 
     text = uniqueLines.join("\n");
   }
 
-  // 4. Strip whitespace
+  // 4. Aggressive filler removal (Default-ON)
+  if (aggressivePrune) {
+    const fillerPatterns = [
+      /\bcan you please\b/gi,
+      /\bcould you kindly\b/gi,
+      /\bplease kindly\b/gi,
+      /\bcan you\b/gi,
+      /\bplease\b/gi,
+      /\bkindly\b/gi,
+      /\bas an ai\b/gi,
+      /\bas mentioned before\b/gi,
+      /\bfor your information\b/gi,
+      /\bin order to\b/gi,
+      /\bat this point in time\b/gi,
+      /\bwhat improvements can be made\b/gi
+    ];
+    for (const rx of fillerPatterns) {
+      text = text.replace(rx, "");
+    }
+    text = text.replace(/\s+/g, " ");
+  }
+
+  // 5. Strip whitespace
   if (stripWhitespace) {
     text = text.replace(/[ \t]+/g, " ");
     text = text.replace(/\n\s*\n/g, "\n");
     text = text.trim();
-  }
-
-  // 5. Aggressive filler removal
-  if (aggressivePrune) {
-    const fillers = [
-      /\bplease\b/gi, /\bkindly\b/gi, /\bas an ai\b/gi,
-      /\bas mentioned before\b/gi, /\bfor your information\b/gi,
-      /\bin order to\b/gi, /\bat this point in time\b/gi
-    ];
-    for (const rx of fillers) {
-      text = text.replace(rx, "");
-    }
-    text = text.replace(/  +/g, " ");
   }
 
   const compressedTokens = estimateProviderTokens(text, provider);

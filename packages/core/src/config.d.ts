@@ -1,5 +1,5 @@
 /**
- * Configuration loader and Secret Redaction utility
+ * Configuration & Secret Redaction Engine (Section 10 & 11)
  */
 import { TokenSaveConfig } from './types.js';
 export declare const DEFAULT_CONFIG: TokenSaveConfig;
