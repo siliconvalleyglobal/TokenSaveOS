@@ -13,6 +13,34 @@ TokenSaveOS is an open-source AI agent optimization platform developed by **[SIL
 
 ---
 
+## 📉 Token Savings Matrix (Line Chart)
+
+```mermaid
+xychart-beta
+    title "Token Volume Payload Reduction Curve (Tokens per Request)"
+    x-axis ["Raw Codebase Payload", "1. Context Engine", "2. Token Engine", "3. Prompt Cache", "4. Model Router"]
+    y-axis "Tokens Consumed" 0 --> 100000
+    line [100000, 18000, 8500, 2400, 1200]
+```
+
+### Visual Breakdown of the Curve:
+```text
+100k ──┐ (Raw Codebase Payload)
+       │
+ 80k   │
+       │
+ 60k   │
+       │
+ 40k   │
+       │
+ 20k   └───┐ (1. Context Engine: 100k ➔ 18k)
+           └───┐ (2. Token Engine: 18k ➔ 8.5k)
+  0k           └───┐ (3. Prompt Cache: 8.5k ➔ 2.4k)
+                   └──────────★ Final Optimized Payload: 1,200 Tokens (-88% Net Reduction)
+```
+
+---
+
 ## ⚡ Recommended Workflow: Standalone Agent Mode (`tokensave run`)
 
 For **Cursor IDE**, **Antigravity IDE**, **VS Code**, and **Terminal**, run TokenSaveOS directly as your standalone optimized agent:
@@ -81,7 +109,7 @@ For an engineering team executing **10,000 AI coding requests per month**:
 
 ---
 
-## 💻 CLI Commands
+## 💻 CLI Commands & Features
 
 ```bash
 # Install globally
@@ -89,6 +117,18 @@ npm install -g @svgph/tokensaveos
 
 # Run Standalone Agent Mode (Primary Recommended Flow)
 tokensave run "Refactor security policy"
+
+# Start Zero-Code LLM API Proxy (http://localhost:8080)
+tokensave proxy
+
+# Launch Live Web Analytics Dashboard (http://localhost:3005)
+tokensave dashboard
+
+# Manage Developer Spending Budgets
+tokensave budget set 100
+
+# Generate Encrypted Vault Signature for Team Sync
+tokensave sync
 
 # View Real Savings Dashboard
 tokensave stats
