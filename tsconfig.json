@@ -20,6 +20,5 @@
       "@tokensaveos/skill-manager": ["packages/skill-manager/dist/index.d.ts"],
       "@tokensaveos/mcp-server": ["packages/mcp-server/dist/index.d.ts"]
     }
-  },
-  "exclude": ["apps/dashboard", "apps/extension"]
+  }
 }

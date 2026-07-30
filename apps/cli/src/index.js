@@ -4,7 +4,6 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
-import { spawn } from 'child_process';
 import { loadConfig, DEFAULT_CONFIG, BudgetManager, VaultSync } from '@tokensaveos/core';
 import { scanRepository, rankContextFiles } from '@tokensaveos/context-engine';
 import { compressPrompt } from '@tokensaveos/token-engine';
@@ -16,7 +15,7 @@ import { SkillManager } from '@tokensaveos/skill-manager';
 import { TokenSaveMCPServer, startLLMProxy } from '@tokensaveos/mcp-server';
 const command = process.argv[2] || 'help';
 async function main() {
-    console.log(`\x1b[36m⚡ TokenSaveOS v1.3.0\x1b[0m — AI Agent Optimization Platform\n`);
+    console.log(`\x1b[36m⚡ TokenSaveOS v1.3.2\x1b[0m — AI Agent Optimization Platform\n`);
     const config = loadConfig();
     const cache = new CacheManager();
     const memory = new MemoryEngine();
@@ -98,12 +97,6 @@ async function main() {
             console.log(`• Cache Hit Ratio:          \x1b[35m${s.hitRatio}%\x1b[0m (${s.hits} hits / ${s.misses} misses)`);
             break;
         }
-        case 'dashboard': {
-            console.log(`🌐 Launching TokenSaveOS Analytics Dashboard on http://localhost:3005 ...`);
-            const dashDir = path.join(process.cwd(), 'apps', 'dashboard');
-            const child = spawn('npm', ['run', 'dev'], { cwd: dashDir, stdio: 'inherit', shell: true });
-            break;
-        }
         case 'memory': {
             const current = memory.loadMemory();
             console.log(`\x1b[36mDurable Project Memory (.tokensave/memory/):\x1b[0m`);
@@ -159,7 +152,6 @@ async function main() {
             console.log(`  budget     Manage developer budgets (tokensave budget [get|set <limit>])`);
             console.log(`  sync       Generate encrypted enterprise vault sync signature`);
             console.log(`  stats      Display token savings & prompt cache stats`);
-            console.log(`  dashboard  Launch live web analytics dashboard on http://localhost:3005`);
             console.log(`  memory     Display project memory (.tokensave/memory/)`);
             console.log(`  skills     Manage skills (tokensave skills [list|install <name> <category>])`);
             console.log(`  run        Run as a standalone Tier B agent runtime`);
