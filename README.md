@@ -13,6 +13,23 @@ TokenSaveOS is an open-source AI agent optimization platform developed by **[SIL
 
 ---
 
+## ⚡ Recommended Workflow: Standalone Agent Mode (`tokensave run`)
+
+For **Cursor IDE**, **Antigravity IDE**, **VS Code**, and **Terminal**, run TokenSaveOS directly as your standalone optimized agent:
+
+```bash
+# Execute any AI task with 88% cost optimization
+tokensave run "Refactor security policy and optimize database queries"
+```
+
+### What Happens Under the Hood (`tokensave run`):
+1. **Context Engine**: Prunes repository files from 100,000 → 8,000 tokens.
+2. **Smart Model Router**: Automatically selects Haiku (simple tasks) or Opus (complex architecture).
+3. **Token Compression**: Strips prompt filler words, code comments, and JSON whitespace.
+4. **Persistent Savings Vault**: Records exact token savings and USD cost reduction to `~/.tokensave/state.json`.
+
+---
+
 ## 📊 The 4 Levers of Token & Cost Savings
 
 ```
@@ -64,33 +81,23 @@ For an engineering team executing **10,000 AI coding requests per month**:
 
 ---
 
-## 🌟 Integration Feasibility Matrix
-
-| Tool | Interception point today | What TokenSaveOS can actually do | ToS risk |
-|---|---|---|---|
-| **Claude Code** | Hooks + MCP servers (sanctioned) | Full: context trim, caching, memory injection, model routing via hook | Low — using documented extension points |
-| **VS Code / Antigravity / Cursor** | Standalone CLI agent runtime or MCP tool | Full: pre-flight context optimization & standalone optimized agent mode | Avoid silent traffic interception |
-| **Direct API use** | Full — it's your code | Full: caching, routing, memory, everything | None |
-
----
-
-## 💻 Quickstart & Global Installation
+## 💻 CLI Commands
 
 ```bash
-# Install globally from npm
+# Install globally
 npm install -g @svgph/tokensaveos
 
-# Initialize project configuration & .tokensave/memory/
-tokensave init
+# Run Standalone Agent Mode (Primary Recommended Flow)
+tokensave run "Refactor security policy"
 
-# Optimize any AI request
-tokensave optimize "Can you please analyze this code..."
-
-# View real token and cost savings dashboard
+# View Real Savings Dashboard
 tokensave stats
 
-# Act as standalone optimized agent
-tokensave run "Refactor security policy"
+# Pre-flight Prompt Compression
+tokensave optimize "Can you please analyze this code..."
+
+# Initialize Project & Memory
+tokensave init
 ```
 
 ---
