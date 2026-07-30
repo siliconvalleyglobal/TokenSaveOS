@@ -1,6 +1,6 @@
 {
   "name": "@svgph/tokensaveos",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System",
   "main": "apps/cli/src/index.ts",
   "bin": {

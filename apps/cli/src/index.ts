@@ -6,6 +6,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { spawn } from 'child_process';
 import { loadConfig, DEFAULT_CONFIG, RankedFile } from '@tokensaveos/core';
 import { scanRepository, rankContextFiles } from '@tokensaveos/context-engine';
 import { compressPrompt } from '@tokensaveos/token-engine';
@@ -19,7 +20,7 @@ import { TokenSaveMCPServer } from '@tokensaveos/mcp-server';
 const command = process.argv[2] || 'help';
 
 async function main() {
-  console.log(`\x1b[36m⚡ TokenSaveOS v1.0.0\x1b[0m — AI Agent Optimization Platform\n`);
+  console.log(`\x1b[36m⚡ TokenSaveOS v1.1.0\x1b[0m — AI Agent Optimization Platform\n`);
 
   const config = loadConfig();
   const cache = new CacheManager();
@@ -74,6 +75,13 @@ async function main() {
       console.log(`• Total Tokens Saved:       \x1b[32m${s.tokensSaved.toLocaleString()}\x1b[0m`);
       console.log(`• Total Cost Reduction:     \x1b[32m$${s.costSavedUSD.toFixed(5)}\x1b[0m`);
       console.log(`• Cache Hit Ratio:          \x1b[35m${s.hitRatio}%\x1b[0m (${s.hits} hits / ${s.misses} misses)`);
+      break;
+    }
+
+    case 'dashboard': {
+      console.log(`🌐 Launching TokenSaveOS Analytics Dashboard on http://localhost:3005 ...`);
+      const dashDir = path.join(process.cwd(), 'apps', 'dashboard');
+      const child = spawn('npm', ['run', 'dev'], { cwd: dashDir, stdio: 'inherit', shell: true });
       break;
     }
 
@@ -133,6 +141,7 @@ async function main() {
       console.log(`  analyze    Scan repository & rank context efficiency`);
       console.log(`  optimize   Compress a prompt and calculate token/cost savings`);
       console.log(`  stats      Display token savings & prompt cache stats`);
+      console.log(`  dashboard  Launch live web analytics dashboard on http://localhost:3005`);
       console.log(`  memory     Display project memory (.tokensave/memory/)`);
       console.log(`  skills     Manage skills (tokensave skills [list|install <name> <category>])`);
       console.log(`  run        Run as a standalone Tier B agent runtime`);
