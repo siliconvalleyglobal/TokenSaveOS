@@ -1,11 +1,12 @@
 {
   "name": "@svgph/tokensaveos",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System",
   "main": "apps/cli/src/index.ts",
   "type": "module",
   "license": "MIT",
-  "author": "SILICON VALLEY GLOBAL PH INC",
+  "author": "SILICON VALLEY GLOBAL PH INC <opensource@svg.ph>",
+  "homepage": "https://svg.ph",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/siliconvalleyglobal/TokenSaveOS.git"
@@ -13,7 +14,6 @@
   "bugs": {
     "url": "https://github.com/siliconvalleyglobal/TokenSaveOS/issues"
   },
-  "homepage": "https://github.com/siliconvalleyglobal/TokenSaveOS#readme",
   "publishConfig": {
     "access": "public"
   },

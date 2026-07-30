@@ -1,14 +1,15 @@
 # TokenSaveOS ⚡
 
 ### *An Enterprise AI Agent Optimization Platform & Context Intelligence Operating System (v1.1)*
-***A Project by SILICON VALLEY GLOBAL PH INC***
+***A Project by [SILICON VALLEY GLOBAL PH INC](https://svg.ph)***
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/@svgph/tokensaveos.svg)](https://www.npmjs.com/package/@svgph/tokensaveos)
+[![Company Website](https://img.shields.io/badge/Website-svg.ph-brightgreen.svg)](https://svg.ph)
 [![Build Status](https://img.shields.io/badge/Vitest-100%25%20Passing-success.svg)](packages/)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Monorepo-purple.svg)](docs/integration-matrix.md)
 
-TokenSaveOS is an open-source AI agent optimization platform developed by **SILICON VALLEY GLOBAL PH INC**. It optimizes how AI coding agents consume tokens, manage context, and route requests — without replacing underlying LLM models.
+TokenSaveOS is an open-source AI agent optimization platform developed by **[SILICON VALLEY GLOBAL PH INC](https://svg.ph)**. It optimizes how AI coding agents consume tokens, manage context, and route requests — without replacing underlying LLM models.
 
 ---
 
@@ -73,4 +74,4 @@ Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) for 
 
 ## 📄 License
 
-TokenSaveOS is open-source software developed by **SILICON VALLEY GLOBAL PH INC** and licensed under the [MIT License](LICENSE).
+TokenSaveOS is open-source software developed by **[SILICON VALLEY GLOBAL PH INC](https://svg.ph)** and licensed under the [MIT License](LICENSE).
