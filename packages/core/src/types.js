@@ -1,4 +1,4 @@
 /**
- * Core interface contracts for TokenSaveOS pluggable architecture
+ * TokenSaveOS Core Interfaces & Types (Section 13)
  */
 export {};

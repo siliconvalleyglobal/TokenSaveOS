@@ -11,6 +11,8 @@ import { CacheManager } from '@tokensaveos/cache-manager';
 import { MemoryEngine } from '@tokensaveos/memory-engine';
 import { AgentRouter } from '@tokensaveos/agent-router';
 import { EvalHarness } from '@tokensaveos/eval-harness';
+import { SkillManager } from '@tokensaveos/skill-manager';
+import { TokenSaveMCPServer } from '@tokensaveos/mcp-server';
 const command = process.argv[2] || 'help';
 async function main() {
     console.log(`\x1b[36m⚡ TokenSaveOS v1.1.0\x1b[0m — AI Agent Optimization Platform\n`);
@@ -19,6 +21,7 @@ async function main() {
     const memory = new MemoryEngine();
     const router = new AgentRouter(config);
     const evals = new EvalHarness(config);
+    const skills = new SkillManager();
     switch (command) {
         case 'init': {
             const configPath = path.join(process.cwd(), 'tokensave.config.json');
@@ -48,6 +51,7 @@ async function main() {
         case 'optimize': {
             const sample = process.argv[3] || "Please kindly note that we should refactor the code and remove unnecessary whitespace comments.";
             const res = compressPrompt(sample);
+            cache.recordSavings(res.originalTokens, res.compressedTokens, res.estimatedSavingsUSD, sample);
             console.log(`\x1b[33mBefore:\x1b[0m ${res.originalTokens} tokens`);
             console.log(`\x1b[32mAfter:\x1b[0m  ${res.compressedTokens} tokens (-${res.compressionRatio}%)`);
             console.log(`\x1b[36mUSD Saved:\x1b[0m $${res.estimatedSavingsUSD}\n`);
@@ -55,17 +59,33 @@ async function main() {
             break;
         }
         case 'stats': {
-            console.log(`\x1b[36m=== TokenSaveOS Savings Dashboard ===\x1b[0m`);
-            console.log(`• Compression Savings Rate: \x1b[32m64.8%\x1b[0m`);
-            console.log(`• Total Tokens Saved:       \x1b[32m1,482,900\x1b[0m`);
-            console.log(`• Total Cost Reduction:     \x1b[32m$7,414.50\x1b[0m`);
-            console.log(`• Cache Hit Ratio:          \x1b[35m83.5%\x1b[0m (142 hits / 28 misses)`);
+            const s = cache.getStats();
+            console.log(`\x1b[36m=== TokenSaveOS Real Savings Dashboard (~/.tokensave/state.json) ===\x1b[0m`);
+            console.log(`• Compression Savings Rate: \x1b[32m${s.savingsRate}%\x1b[0m`);
+            console.log(`• Total Tokens Saved:       \x1b[32m${s.tokensSaved.toLocaleString()}\x1b[0m`);
+            console.log(`• Total Cost Reduction:     \x1b[32m$${s.costSavedUSD.toFixed(5)}\x1b[0m`);
+            console.log(`• Cache Hit Ratio:          \x1b[35m${s.hitRatio}%\x1b[0m (${s.hits} hits / ${s.misses} misses)`);
             break;
         }
         case 'memory': {
             const current = memory.loadMemory();
-            console.log(`\x1b[36mDurable Project Memory (.tokensave/memory/project.json):\x1b[0m`);
+            console.log(`\x1b[36mDurable Project Memory (.tokensave/memory/):\x1b[0m`);
             console.log(JSON.stringify(current, null, 2));
+            break;
+        }
+        case 'skills': {
+            const sub = process.argv[3];
+            if (sub === 'install') {
+                const name = process.argv[4] || 'security-audit';
+                const category = process.argv[5] || 'security';
+                const installed = skills.installSkill(name, category);
+                console.log(`\x1b[32m[+] Installed skill '${installed.name}' under skills/${installed.category}/\x1b[0m`);
+            }
+            else {
+                const list = skills.listSkills();
+                console.log(`\x1b[36mInstalled Agent Skills (${list.length}):\x1b[0m`);
+                list.forEach(s => console.log(`  • [${s.category}] ${s.name} (${s.path})`));
+            }
             break;
         }
         case 'run': {
@@ -74,6 +94,7 @@ async function main() {
             const route = router.routePrompt(prompt);
             console.log(`[Router] Selected Model: \x1b[32m${route.selectedModel}\x1b[0m (${route.rationale})`);
             const compressed = compressPrompt(prompt);
+            cache.recordSavings(compressed.originalTokens, compressed.compressedTokens, compressed.estimatedSavingsUSD, prompt);
             console.log(`[Token Engine] Compressed prompt from ${compressed.originalTokens} to ${compressed.compressedTokens} tokens.`);
             break;
         }
@@ -85,6 +106,12 @@ async function main() {
             console.log(`[Gate Status] ${report.passedGate ? '\x1b[32mPASSED GATE\x1b[0m' : '\x1b[31mFAILED GATE\x1b[0m'} (Min required: ${report.minRequiredRate * 100}%)`);
             break;
         }
+        case 'mcp': {
+            console.log(`🔌 Launching TokenSaveOS MCP Stdio Server...`);
+            const mcp = new TokenSaveMCPServer();
+            await mcp.startStdio();
+            break;
+        }
         default: {
             console.log(`Usage: tokensave <command> [options]`);
             console.log(`\nCommands:`);
@@ -92,9 +119,11 @@ async function main() {
             console.log(`  analyze    Scan repository & rank context efficiency`);
             console.log(`  optimize   Compress a prompt and calculate token/cost savings`);
             console.log(`  stats      Display token savings & prompt cache stats`);
-            console.log(`  memory     Display or update project memory`);
+            console.log(`  memory     Display project memory (.tokensave/memory/)`);
+            console.log(`  skills     Manage skills (tokensave skills [list|install <name> <category>])`);
             console.log(`  run        Run as a standalone Tier B agent runtime`);
             console.log(`  eval       Run regression test suite against compression config`);
+            console.log(`  mcp        Start Stdio JSON-RPC MCP Gateway server`);
         }
     }
 }

@@ -1,29 +1,39 @@
 /**
- * Core interface contracts for TokenSaveOS pluggable architecture
+ * TokenSaveOS Core Interfaces & Types (Section 13)
  */
 
+export interface AIModelConfig {
+  simple: string;
+  medium: string;
+  complex: string;
+}
+
+export interface ContextConfig {
+  maxTokens: number;
+  ignorePatterns: string[];
+}
+
+export interface MemoryConfig {
+  autoUpdate: boolean;
+  schemaVersion: number;
+}
+
+export interface CacheConfig {
+  enabled: boolean;
+  provider: 'anthropic' | 'openai' | 'ollama';
+}
+
+export interface EvalConfig {
+  gateOnRegression: boolean;
+  minSuccessRate: number;
+}
+
 export interface TokenSaveConfig {
-  aiModels: {
-    simple: string;
-    medium: string;
-    complex: string;
-  };
-  context: {
-    maxTokens: number;
-    ignorePatterns: string[];
-  };
-  memory: {
-    autoUpdate: boolean;
-    schemaVersion: number;
-  };
-  cache: {
-    enabled: boolean;
-    provider: string;
-  };
-  eval: {
-    gateOnRegression: boolean;
-    minSuccessRate: number;
-  };
+  aiModels: AIModelConfig;
+  context: ContextConfig;
+  memory: MemoryConfig;
+  cache: CacheConfig;
+  eval: EvalConfig;
 }
 
 export interface RankedFile {
@@ -44,17 +54,19 @@ export interface CompressionResult {
 
 export interface ModelRouteDecision {
   selectedModel: string;
-  tokenCount: number;
-  estimatedCostUSD: number;
-  savingsVsDefaultUSD: number;
+  tier?: 'simple' | 'medium' | 'complex';
   rationale: string;
-  escalated: boolean;
+  escalated?: boolean;
+  tokenCount?: number;
+  estimatedCostUSD?: number;
+  savingsVsDefaultUSD?: number;
 }
 
 export interface CacheStats {
   hits: number;
   misses: number;
-  hitRate: number;
-  totalTokensSaved: number;
-  usdSaved: number;
+  hitRatio: number;
+  tokensSaved: number;
+  costSavedUSD: number;
+  savingsRate?: number;
 }

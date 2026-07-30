@@ -1,24 +1,49 @@
 /**
- * Per-Provider Tokenizer Estimator
+ * Per-Provider Tokenizer Support (Module 2)
  */
+import { get_encoding } from 'tiktoken';
 export const PROVIDER_RATES = {
     anthropic: { inputPer1k: 0.003, outputPer1k: 0.015 },
-    openai: { inputPer1k: 0.005, outputPer1k: 0.015 },
-    ollama: { inputPer1k: 0.0005, outputPer1k: 0.0008 }
+    openai: { inputPer1k: 0.0025, outputPer1k: 0.01 },
+    ollama: { inputPer1k: 0.0, outputPer1k: 0.0 }
 };
+let tiktokenEncoder = null;
+function getTiktokenEncoder() {
+    if (!tiktokenEncoder) {
+        try {
+            tiktokenEncoder = get_encoding('cl100k_base');
+        }
+        catch (e) {
+            tiktokenEncoder = null;
+        }
+    }
+    return tiktokenEncoder;
+}
 export function estimateProviderTokens(text, provider = 'anthropic') {
-    if (!text)
+    if (!text || text.trim().length === 0)
         return 0;
-    const charLen = text.length;
-    const wordLen = text.trim().split(/\s+/).length;
-    // Provider-tuned character-to-token ratio adjustments
     if (provider === 'openai') {
-        return Math.max(1, Math.ceil((charLen / 3.8 + wordLen) / 2));
+        const enc = getTiktokenEncoder();
+        if (enc) {
+            try {
+                const tokens = enc.encode(text);
+                return tokens.length;
+            }
+            catch (e) {
+                // fallback heuristic if encoding fails
+            }
+        }
     }
-    else if (provider === 'anthropic') {
-        return Math.max(1, Math.ceil((charLen / 4.1 + wordLen) / 2));
+    if (provider === 'anthropic') {
+        // Anthropic BPE tokenizer estimation: ~3.5 chars per token for code/text
+        return Math.ceil(text.length / 3.5);
     }
-    else {
-        return Math.max(1, Math.ceil((charLen / 4.5 + wordLen) / 2));
-    }
+    // Fallback for Ollama / Llama3 BPE tokenizers
+    const words = text.trim().split(/\s+/).length;
+    const chars = text.length;
+    return Math.max(1, Math.round(words * 1.3 + (chars - words * 5) * 0.2));
+}
+export function calculateCost(tokens, provider = 'anthropic', type = 'input') {
+    const rate = type === 'input' ? PROVIDER_RATES[provider].inputPer1k : PROVIDER_RATES[provider].outputPer1k;
+    return parseFloat(((tokens / 1000) * rate).toFixed(5));
 }

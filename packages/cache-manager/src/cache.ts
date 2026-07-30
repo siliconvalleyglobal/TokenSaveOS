@@ -1,62 +1,124 @@
 /**
- * Native Prompt Cache & Breakpoint Manager
+ * Cache Manager & Savings Persistence (Module 3)
  */
 
+import * as fs from 'fs';
+import * as path from 'path';
+import * as os from 'os';
 import { CacheStats } from '@tokensaveos/core';
-import { estimateProviderTokens } from '@tokensaveos/token-engine';
+import { ModelProvider } from '@tokensaveos/token-engine';
+
+export interface PromptCacheRecord {
+  hash: string;
+  originalTokens: number;
+  compressedTokens: number;
+  costSavedUSD: number;
+  timestamp: string;
+}
+
+export interface PersistentState {
+  totalTokensSaved: number;
+  totalCostSavedUSD: number;
+  cacheHits: number;
+  cacheMisses: number;
+  history: PromptCacheRecord[];
+}
 
 export class CacheManager {
-  private cache = new Map<string, { prompt: string; tokens: number; hits: number }>();
-  private hits = 0;
-  private misses = 0;
-  private totalTokensSaved = 0;
+  private stateFilePath: string;
+  private state: PersistentState;
 
-  private generateKey(prompt: string): string {
-    return prompt.trim().toLowerCase().replace(/\s+/g, ' ');
+  constructor(customPath?: string) {
+    const baseDir = customPath || path.join(os.homedir(), '.tokensave');
+    if (!fs.existsSync(baseDir)) {
+      fs.mkdirSync(baseDir, { recursive: true });
+    }
+    this.stateFilePath = path.join(baseDir, 'state.json');
+    this.state = this.loadState();
   }
 
-  public annotateCacheBreakpoints(systemPrompt: string, provider: string = 'anthropic'): any {
-    if (provider === 'anthropic') {
-      return {
-        type: 'text',
-        text: systemPrompt,
-        cache_control: { type: 'ephemeral' }
-      };
+  private loadState(): PersistentState {
+    if (fs.existsSync(this.stateFilePath)) {
+      try {
+        const raw = fs.readFileSync(this.stateFilePath, 'utf-8');
+        return JSON.parse(raw);
+      } catch (e) {
+        // fallback default if unparseable
+      }
     }
-    return systemPrompt;
+    return {
+      totalTokensSaved: 0,
+      totalCostSavedUSD: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      history: []
+    };
   }
 
-  public checkCache(prompt: string): { hit: boolean; cachedPrompt?: string } {
-    const key = this.generateKey(prompt);
-    if (this.cache.has(key)) {
-      this.hits++;
-      const entry = this.cache.get(key)!;
-      entry.hits++;
-      const tokens = estimateProviderTokens(prompt, 'anthropic');
-      this.totalTokensSaved += tokens;
-      return { hit: true, cachedPrompt: entry.prompt };
+  private saveState() {
+    fs.writeFileSync(this.stateFilePath, JSON.stringify(this.state, null, 2), 'utf-8');
+  }
+
+  public checkCache(prompt: string): { hit: boolean; cachedText?: string } {
+    const hash = Buffer.from(prompt.trim().toLowerCase()).toString('base64');
+    const match = this.state.history.find(h => h.hash === hash);
+    if (match) {
+      this.state.cacheHits++;
+      this.saveState();
+      return { hit: true };
     }
-    this.misses++;
+    this.state.cacheMisses++;
+    this.saveState();
     return { hit: false };
   }
 
-  public setCache(prompt: string): void {
-    const key = this.generateKey(prompt);
-    const tokens = estimateProviderTokens(prompt, 'anthropic');
-    this.cache.set(key, { prompt, tokens, hits: 1 });
+  public recordSavings(originalTokens: number, compressedTokens: number, costSavedUSD: number, prompt: string) {
+    const hash = Buffer.from(prompt.trim().toLowerCase()).toString('base64');
+    const tokensSaved = Math.max(0, originalTokens - compressedTokens);
+    
+    this.state.totalTokensSaved += tokensSaved;
+    this.state.totalCostSavedUSD += costSavedUSD;
+    this.state.history.push({
+      hash,
+      originalTokens,
+      compressedTokens,
+      costSavedUSD,
+      timestamp: new Date().toISOString()
+    });
+    this.saveState();
+  }
+
+  public annotateCacheBreakpoints(content: string, provider: ModelProvider = 'anthropic'): any {
+    if (provider === 'anthropic') {
+      return {
+        type: 'text',
+        text: content,
+        cache_control: { type: 'ephemeral' }
+      };
+    }
+    return content;
   }
 
   public getStats(): CacheStats {
-    const total = this.hits + this.misses;
-    const hitRate = total > 0 ? parseFloat(((this.hits / total) * 100).toFixed(1)) : 0;
-    const usdSaved = parseFloat(((this.totalTokensSaved / 1000) * 0.003).toFixed(4));
+    const totalRequests = this.state.cacheHits + this.state.cacheMisses;
+    const hitRatio = totalRequests > 0 ? parseFloat(((this.state.cacheHits / totalRequests) * 100).toFixed(1)) : 0;
+    
+    // Total savings rate calculation
+    let totalOriginal = 0;
+    let totalCompressed = 0;
+    for (const h of this.state.history) {
+      totalOriginal += h.originalTokens;
+      totalCompressed += h.compressedTokens;
+    }
+    const savingsRate = totalOriginal > 0 ? parseFloat((((totalOriginal - totalCompressed) / totalOriginal) * 100).toFixed(1)) : 0;
 
     return {
-      hits: this.hits,
-      misses: this.misses,
-      hitRate,
-      totalTokensSaved: this.totalTokensSaved,
-      usdSaved
+      hits: this.state.cacheHits,
+      misses: this.state.cacheMisses,
+      hitRatio,
+      tokensSaved: this.state.totalTokensSaved,
+      costSavedUSD: parseFloat(this.state.totalCostSavedUSD.toFixed(5)),
+      savingsRate
     };
   }
 }

@@ -1,18 +1,16 @@
 /**
- * Durable Memory Engine with Schema Versioning & Secret Scrubbing
+ * Memory Engine System (Module 4)
+ * Manages .tokensave/memory/{project.md, architecture.md, decisions.md, dependencies.md, coding-style.md}
  */
-export interface MemoryRecord {
+export type MemoryFileName = 'project.md' | 'architecture.md' | 'decisions.md' | 'dependencies.md' | 'coding-style.md';
+export interface ProjectMemoryMap {
     schemaVersion: number;
-    project: string;
-    updatedAt: string;
-    architecture: string;
-    decisions: string[];
-    style: string;
+    files: Record<MemoryFileName, string>;
 }
 export declare class MemoryEngine {
     private memoryDir;
+    private schemaVersion;
     constructor(rootDir?: string);
-    getMemoryPath(filename?: string): string;
-    loadMemory(filename?: string): MemoryRecord;
-    saveMemory(record: Partial<MemoryRecord>, filename?: string): void;
+    loadMemory(): ProjectMemoryMap;
+    updateMemoryFile(fileName: MemoryFileName, content: string): string;
 }

@@ -1,22 +1,22 @@
 /**
- * Durable Memory Engine with Schema Versioning & Secret Scrubbing
+ * Memory Engine System (Module 4)
+ * Manages .tokensave/memory/{project.md, architecture.md, decisions.md, dependencies.md, coding-style.md}
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { redactSecrets } from '@tokensaveos/core';
 
-export interface MemoryRecord {
+export type MemoryFileName = 'project.md' | 'architecture.md' | 'decisions.md' | 'dependencies.md' | 'coding-style.md';
+
+export interface ProjectMemoryMap {
   schemaVersion: number;
-  project: string;
-  updatedAt: string;
-  architecture: string;
-  decisions: string[];
-  style: string;
+  files: Record<MemoryFileName, string>;
 }
 
 export class MemoryEngine {
   private memoryDir: string;
+  private schemaVersion: number = 1;
 
   constructor(rootDir: string = process.cwd()) {
     this.memoryDir = path.join(rootDir, '.tokensave', 'memory');
@@ -25,46 +25,39 @@ export class MemoryEngine {
     }
   }
 
-  public getMemoryPath(filename: string = 'project.json'): string {
-    return path.join(this.memoryDir, filename);
-  }
+  public loadMemory(): ProjectMemoryMap {
+    const memoryFiles: MemoryFileName[] = [
+      'project.md',
+      'architecture.md',
+      'decisions.md',
+      'dependencies.md',
+      'coding-style.md'
+    ];
 
-  public loadMemory(filename: string = 'project.json'): MemoryRecord {
-    const memPath = this.getMemoryPath(filename);
-    if (fs.existsSync(memPath)) {
-      try {
-        const raw = fs.readFileSync(memPath, 'utf-8');
-        const parsed = JSON.parse(raw);
-        if (parsed.schemaVersion !== 1) {
-          console.warn(`Memory schema version mismatch (expected 1, got ${parsed.schemaVersion}). Migrating memory.`);
-        }
-        return parsed;
-      } catch (e) {
-        // Fallback default
+    const resultFiles: Record<string, string> = {};
+
+    for (const fileName of memoryFiles) {
+      const filePath = path.join(this.memoryDir, fileName);
+      if (!fs.existsSync(filePath)) {
+        const defaultContent = `<!-- schemaVersion: 1 -->\n# ${fileName.replace('.md', '').toUpperCase()}\n\nInitial durable memory log.`;
+        fs.writeFileSync(filePath, defaultContent, 'utf-8');
+        resultFiles[fileName] = defaultContent;
+      } else {
+        resultFiles[fileName] = fs.readFileSync(filePath, 'utf-8');
       }
     }
+
     return {
-      schemaVersion: 1,
-      project: 'Default Project',
-      updatedAt: new Date().toISOString(),
-      architecture: 'Modular TypeScript Monorepo Architecture',
-      decisions: ['Use TokenSaveOS for token savings & context pruning'],
-      style: 'TypeScript ESM Modules'
+      schemaVersion: this.schemaVersion,
+      files: resultFiles as Record<MemoryFileName, string>
     };
   }
 
-  public saveMemory(record: Partial<MemoryRecord>, filename: string = 'project.json'): void {
-    const current = this.loadMemory(filename);
-    const updated: MemoryRecord = {
-      schemaVersion: 1,
-      project: redactSecrets(record.project || current.project),
-      updatedAt: new Date().toISOString(),
-      architecture: redactSecrets(record.architecture || current.architecture),
-      decisions: (record.decisions || current.decisions).map(d => redactSecrets(d)),
-      style: redactSecrets(record.style || current.style)
-    };
-
-    const memPath = this.getMemoryPath(filename);
-    fs.writeFileSync(memPath, JSON.stringify(updated, null, 2), 'utf-8');
+  public updateMemoryFile(fileName: MemoryFileName, content: string): string {
+    const filePath = path.join(this.memoryDir, fileName);
+    const sanitized = redactSecrets(content);
+    const contentWithHeader = `<!-- schemaVersion: ${this.schemaVersion} -->\n` + sanitized;
+    fs.writeFileSync(filePath, contentWithHeader, 'utf-8');
+    return contentWithHeader;
   }
 }

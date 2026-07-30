@@ -1,18 +1,33 @@
 /**
- * Native Prompt Cache & Breakpoint Manager
+ * Cache Manager & Savings Persistence (Module 3)
  */
 import { CacheStats } from '@tokensaveos/core';
+import { ModelProvider } from '@tokensaveos/token-engine';
+export interface PromptCacheRecord {
+    hash: string;
+    originalTokens: number;
+    compressedTokens: number;
+    costSavedUSD: number;
+    timestamp: string;
+}
+export interface PersistentState {
+    totalTokensSaved: number;
+    totalCostSavedUSD: number;
+    cacheHits: number;
+    cacheMisses: number;
+    history: PromptCacheRecord[];
+}
 export declare class CacheManager {
-    private cache;
-    private hits;
-    private misses;
-    private totalTokensSaved;
-    private generateKey;
-    annotateCacheBreakpoints(systemPrompt: string, provider?: string): any;
+    private stateFilePath;
+    private state;
+    constructor(customPath?: string);
+    private loadState;
+    private saveState;
     checkCache(prompt: string): {
         hit: boolean;
-        cachedPrompt?: string;
+        cachedText?: string;
     };
-    setCache(prompt: string): void;
+    recordSavings(originalTokens: number, compressedTokens: number, costSavedUSD: number, prompt: string): void;
+    annotateCacheBreakpoints(content: string, provider?: ModelProvider): any;
     getStats(): CacheStats;
 }
