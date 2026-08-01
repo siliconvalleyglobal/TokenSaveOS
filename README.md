@@ -93,6 +93,18 @@ tokensave run "Refactor security policy and optimize database queries"
 * **73% to 94% Cost Reduction Per Routed Request**:
   Routes simple tasks (typos, formatting, minor edits) to Claude 3.5 Haiku ($0.80/1M tokens) instead of expensive Claude 3.7 Sonnet ($3.00/1M) or Opus ($15.00/1M).
 
+### 5. AST Code Context Trimmer (`@tokensaveos/ast-trimmer`)
+* **35% to 55% Additional Code Token Reduction**:
+  Parses TypeScript, JavaScript, and Python code ASTs to strip unexported helper functions, docstrings, and comments while keeping exported interfaces intact for LLM prompts.
+
+### 6. Multi-Provider Cost Matrix (`@tokensaveos/cost-matrix`)
+* **Real-Time Model Price Comparison**:
+  Calculates exact input/output/cached token costs across Anthropic, OpenAI, Google Gemini, and Groq to recommend the lowest-cost model for any task.
+
+### 7. Streaming Token Sentinel (`@tokensaveos/token-sentinel`)
+* **Real-Time Loop Abort & Token Cap Safeguard**:
+  Monitors SSE LLM output streams chunk-by-chunk to detect and abort infinite repetitive loops and runaway token spikes.
+
 ---
 
 ## 💵 Real-World Financial Impact Example

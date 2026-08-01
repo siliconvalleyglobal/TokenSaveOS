@@ -19,7 +19,7 @@ import { TokenSaveMCPServer, startLLMProxy } from '@tokensaveos/mcp-server';
 const command = process.argv[2] || 'help';
 
 async function main() {
-  console.log(`\x1b[36m⚡ TokenSaveOS v1.3.2\x1b[0m — AI Agent Optimization Platform\n`);
+  console.log(`\x1b[36m⚡ TokenSaveOS v1.3.3\x1b[0m — AI Agent Optimization Platform\n`);
 
   const config = loadConfig();
   const cache = new CacheManager();

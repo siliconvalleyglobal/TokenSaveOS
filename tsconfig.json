@@ -18,7 +18,11 @@
       "@tokensaveos/agent-router": ["packages/agent-router/dist/index.d.ts"],
       "@tokensaveos/eval-harness": ["packages/eval-harness/dist/index.d.ts"],
       "@tokensaveos/skill-manager": ["packages/skill-manager/dist/index.d.ts"],
-      "@tokensaveos/mcp-server": ["packages/mcp-server/dist/index.d.ts"]
+      "@tokensaveos/mcp-server": ["packages/mcp-server/dist/index.d.ts"],
+      "@tokensaveos/ast-trimmer": ["packages/ast-trimmer/dist/index.d.ts"],
+      "@tokensaveos/cost-matrix": ["packages/cost-matrix/dist/index.d.ts"],
+      "@tokensaveos/token-sentinel": ["packages/token-sentinel/dist/index.d.ts"]
     }
-  }
+  },
+  "exclude": ["tests/**/*", "**/*.test.ts", "**/dist/**/*"]
 }

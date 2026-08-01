@@ -1,0 +1,13 @@
+{
+  "name": "@tokensaveos/cost-matrix",
+  "version": "1.3.4",
+  "description": "Multi-Provider Cost Calculator & Matrix for TokenSaveOS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@tokensaveos/core": "workspace:*"
+  }
+}
