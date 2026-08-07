@@ -39,7 +39,16 @@
     "tokensave",
     "tokensaveos",
     "svgph",
-    "siliconvalleyglobal"
+    "siliconvalleyglobal",
+    "semantic-cache",
+    "output-compression",
+    "budget-circuit-breaker",
+    "loop-detection",
+    "multi-modal",
+    "streaming",
+    "batch-api",
+    "prompt-versioning",
+    "token-forecasting"
   ],
   "publishConfig": {
     "access": "public"
