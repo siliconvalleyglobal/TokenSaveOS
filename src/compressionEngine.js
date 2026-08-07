@@ -45,7 +45,7 @@ export function compressPrompt(rawText, options = {}) {
       try {
         const parsed = JSON.parse(jsonStr);
         return "```json\n" + JSON.stringify(parsed) + "\n```";
-      } catch (e) {
+      } catch (_e) {
         return match;
       }
     });
