@@ -39,3 +39,4 @@ export declare class TokenForecaster {
     private calculateConfidence;
     private generateRecommendations;
 }
+//# sourceMappingURL=index.d.ts.map

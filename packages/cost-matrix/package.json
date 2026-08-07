@@ -8,6 +8,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@tokensaveos/core": "workspace:*"
+    "@tokensaveos/core": "file:../core"
   }
 }

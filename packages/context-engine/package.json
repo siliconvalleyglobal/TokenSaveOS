@@ -8,7 +8,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tokensaveos/core": "*"
+    "@tokensaveos/core": "file:../core"
   },
   "scripts": {
     "build": "tsc"

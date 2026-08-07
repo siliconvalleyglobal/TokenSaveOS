@@ -9,3 +9,4 @@ export declare class TokenSaveMCPServer {
     private setupHandlers;
     startStdio(): Promise<void>;
 }
+//# sourceMappingURL=server.d.ts.map

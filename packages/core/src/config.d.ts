@@ -5,3 +5,4 @@ import { TokenSaveConfig } from './types.js';
 export declare const DEFAULT_CONFIG: TokenSaveConfig;
 export declare function redactSecrets(text: string): string;
 export declare function loadConfig(configPath?: string): TokenSaveConfig;
+//# sourceMappingURL=config.d.ts.map

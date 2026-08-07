@@ -29,3 +29,4 @@ export declare class PromptVersioning {
     runABTest(name: string, runnerA: (prompt: string) => Promise<string>, runnerB: (prompt: string) => Promise<string>, tokenEstimator: (text: string) => number, costCalculator: (tokens: number) => number): Promise<ABTestResult>;
     rollback(name: string, versionId: string): void;
 }
+//# sourceMappingURL=index.d.ts.map

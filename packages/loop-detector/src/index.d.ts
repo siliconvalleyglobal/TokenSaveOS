@@ -29,3 +29,4 @@ export declare class LoopDetector {
     private detectFuzzyLoop;
     private normalizeStep;
 }
+//# sourceMappingURL=index.d.ts.map

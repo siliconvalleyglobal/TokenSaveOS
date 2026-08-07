@@ -9,13 +9,13 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@tokensaveos/core": "workspace:*",
-    "@tokensaveos/token-engine": "workspace:*",
-    "@tokensaveos/cost-matrix": "workspace:*"
+    "@tokensaveos/core": "file:../core",
+    "@tokensaveos/token-engine": "file:../token-engine",
+    "@tokensaveos/cost-matrix": "file:../cost-matrix"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1",
-    "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   }
 }

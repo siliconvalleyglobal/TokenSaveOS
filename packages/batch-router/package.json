@@ -9,12 +9,12 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@tokensaveos/core": "workspace:*",
-    "@tokensaveos/agent-router": "workspace:*"
+    "@tokensaveos/core": "file:../core",
+    "@tokensaveos/agent-router": "file:../agent-router"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1",
-    "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   }
 }

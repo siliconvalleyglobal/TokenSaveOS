@@ -30,3 +30,4 @@ export declare class ProviderCostMatrix {
      */
     recommendOptimalModel(inputTokens: number, outputTokens: number): CostEstimate;
 }
+//# sourceMappingURL=index.d.ts.map

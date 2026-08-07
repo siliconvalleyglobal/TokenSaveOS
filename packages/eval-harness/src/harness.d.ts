@@ -20,3 +20,4 @@ export declare class EvalHarness {
     constructor(config: TokenSaveConfig);
     runRegressionSuite(agentRunner: (prompt: string) => Promise<string>): Promise<EvalReport>;
 }
+//# sourceMappingURL=harness.d.ts.map

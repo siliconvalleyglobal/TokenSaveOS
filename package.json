@@ -63,13 +63,13 @@
     "tokensave": "npx tsx apps/cli/src/index.ts"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1",
-    "tsx": "^4.16.0",
-    "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "@types/node": "^26.1.2",
+    "tsx": "^4.19.3",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.2.0",
-    "tiktoken": "^1.0.18"
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "tiktoken": "^1.0.22"
   }
 }

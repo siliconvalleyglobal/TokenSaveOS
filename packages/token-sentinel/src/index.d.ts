@@ -25,3 +25,4 @@ export declare class StreamingTokenSentinel {
     processChunk(chunk: string): SentinelEvaluation;
     reset(): void;
 }
+//# sourceMappingURL=index.d.ts.map

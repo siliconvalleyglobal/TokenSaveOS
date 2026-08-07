@@ -28,3 +28,4 @@ export declare class BatchRouter {
     getQueueLength(): number;
     private executeBatchJob;
 }
+//# sourceMappingURL=index.d.ts.map

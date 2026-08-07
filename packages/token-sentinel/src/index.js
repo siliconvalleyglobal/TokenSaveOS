@@ -65,3 +65,4 @@ class StreamingTokenSentinel {
     }
 }
 exports.StreamingTokenSentinel = StreamingTokenSentinel;
+//# sourceMappingURL=index.js.map

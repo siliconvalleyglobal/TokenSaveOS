@@ -69,3 +69,4 @@ export function loadConfig(configPath) {
     }
     return DEFAULT_CONFIG;
 }
+//# sourceMappingURL=config.js.map

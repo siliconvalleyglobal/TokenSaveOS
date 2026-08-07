@@ -8,11 +8,11 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tokensaveos/core": "*",
-    "@tokensaveos/context-engine": "*",
-    "@tokensaveos/token-engine": "*",
-    "@tokensaveos/cache-manager": "*",
-    "@tokensaveos/memory-engine": "*"
+    "@tokensaveos/core": "file:../core",
+    "@tokensaveos/context-engine": "file:../context-engine",
+    "@tokensaveos/token-engine": "file:../token-engine",
+    "@tokensaveos/cache-manager": "file:../cache-manager",
+    "@tokensaveos/memory-engine": "file:../memory-engine"
   },
   "scripts": {
     "build": "tsc"

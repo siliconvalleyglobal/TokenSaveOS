@@ -21,3 +21,4 @@ export declare class ASTCodeTrimmer {
      */
     extractExportedSignatures(code: string): string;
 }
+//# sourceMappingURL=index.d.ts.map

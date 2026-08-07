@@ -12,3 +12,4 @@ export interface CompressOptions {
     provider?: ModelProvider;
 }
 export declare function compressPrompt(rawText: string, options?: CompressOptions): CompressionResult;
+//# sourceMappingURL=compressor.d.ts.map

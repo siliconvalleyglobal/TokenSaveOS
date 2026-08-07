@@ -8,8 +8,8 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tokensaveos/core": "*",
-    "@tokensaveos/token-engine": "*"
+    "@tokensaveos/core": "file:../core",
+    "@tokensaveos/token-engine": "file:../token-engine"
   },
   "scripts": {
     "build": "tsc"

@@ -54,3 +54,4 @@ export class SkillManager {
         return installed;
     }
 }
+//# sourceMappingURL=skills.js.map

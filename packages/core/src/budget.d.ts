@@ -19,3 +19,4 @@ export declare class BudgetManager {
         warning?: string;
     };
 }
+//# sourceMappingURL=budget.d.ts.map

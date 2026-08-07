@@ -102,3 +102,4 @@ export class TokenForecaster {
         return recommendations;
     }
 }
+//# sourceMappingURL=index.js.map

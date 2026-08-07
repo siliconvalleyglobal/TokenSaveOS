@@ -84,3 +84,4 @@ export class OutputCompressor {
         return Math.ceil(text.length * (rates[provider] || 0.25));
     }
 }
+//# sourceMappingURL=index.js.map

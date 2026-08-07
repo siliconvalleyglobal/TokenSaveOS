@@ -45,3 +45,4 @@ export declare class BudgetCircuitBreaker {
     private getKey;
     private ensureState;
 }
+//# sourceMappingURL=index.d.ts.map

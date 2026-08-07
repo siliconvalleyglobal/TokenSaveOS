@@ -72,3 +72,4 @@ class ASTCodeTrimmer {
     }
 }
 exports.ASTCodeTrimmer = ASTCodeTrimmer;
+//# sourceMappingURL=index.js.map

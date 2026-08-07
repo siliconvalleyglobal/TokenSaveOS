@@ -31,3 +31,4 @@ export declare class CacheManager {
     annotateCacheBreakpoints(content: string, provider?: ModelProvider): any;
     getStats(): CacheStats;
 }
+//# sourceMappingURL=cache.d.ts.map

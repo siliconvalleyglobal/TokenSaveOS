@@ -69,3 +69,4 @@ export class BatchRouter {
         return `[BATCH] Processed: ${job.prompt.slice(0, 50)}...`;
     }
 }
+//# sourceMappingURL=index.js.map

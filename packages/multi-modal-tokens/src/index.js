@@ -86,3 +86,4 @@ export class MultiModalTokenizer {
         return frameCount * tokensPerFrame;
     }
 }
+//# sourceMappingURL=index.js.map

@@ -81,3 +81,4 @@ export class LoopDetector {
             .slice(0, 100);
     }
 }
+//# sourceMappingURL=index.js.map

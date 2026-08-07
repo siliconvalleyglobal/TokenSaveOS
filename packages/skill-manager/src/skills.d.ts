@@ -14,3 +14,4 @@ export declare class SkillManager {
     installSkill(skillName: string, category?: SkillCategory, content?: string): InstalledSkill;
     listSkills(): InstalledSkill[];
 }
+//# sourceMappingURL=skills.d.ts.map

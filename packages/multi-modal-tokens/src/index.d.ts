@@ -48,3 +48,4 @@ export declare class MultiModalTokenizer {
     private countAudioTokens;
     private countVideoTokens;
 }
+//# sourceMappingURL=index.d.ts.map

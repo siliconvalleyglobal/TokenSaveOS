@@ -50,3 +50,4 @@ export function rankContextFiles(files, prompt, maxTokens = 8000) {
     }
     return pruned;
 }
+//# sourceMappingURL=ranker.js.map

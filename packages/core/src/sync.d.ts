@@ -11,3 +11,4 @@ export interface SyncPayload {
 export declare class VaultSync {
     static exportSyncPayload(secretKey?: string): SyncPayload;
 }
+//# sourceMappingURL=sync.d.ts.map

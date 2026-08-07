@@ -26,3 +26,4 @@ export declare class OutputCompressor {
     private compressCodeBlocks;
     private estimateTokens;
 }
+//# sourceMappingURL=index.d.ts.map

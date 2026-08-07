@@ -44,3 +44,4 @@ export function scanRepository(rootDir, ignorePatterns = []) {
     traverse(rootDir);
     return fileList;
 }
+//# sourceMappingURL=scanner.js.map

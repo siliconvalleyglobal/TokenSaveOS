@@ -27,3 +27,4 @@ export declare class StreamingOptimizer {
     private compressError;
     private estimateTokens;
 }
+//# sourceMappingURL=index.d.ts.map

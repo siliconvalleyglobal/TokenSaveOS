@@ -28,3 +28,4 @@ export class VaultSync {
         };
     }
 }
+//# sourceMappingURL=sync.js.map

@@ -47,3 +47,4 @@ export function calculateCost(tokens, provider = 'anthropic', type = 'input') {
     const rate = type === 'input' ? PROVIDER_RATES[provider].inputPer1k : PROVIDER_RATES[provider].outputPer1k;
     return parseFloat(((tokens / 1000) * rate).toFixed(5));
 }
+//# sourceMappingURL=tokenizer.js.map

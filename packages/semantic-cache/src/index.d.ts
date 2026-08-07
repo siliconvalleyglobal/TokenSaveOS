@@ -37,3 +37,4 @@ export declare class SemanticCache {
     private estimateTokens;
     private evictOldest;
 }
+//# sourceMappingURL=index.d.ts.map

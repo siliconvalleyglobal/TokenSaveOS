@@ -7,3 +7,4 @@ export declare class AgentRouter {
     constructor(config: TokenSaveConfig);
     routePrompt(prompt: string, forceEscalate?: boolean): ModelRouteDecision;
 }
+//# sourceMappingURL=router.d.ts.map
