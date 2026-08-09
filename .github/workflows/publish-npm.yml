@@ -23,14 +23,27 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '26'
-          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Sync package.json version
+        if: github.event.inputs.version != ''
+        env:
+          VERSION: ${{ github.event.inputs.version }}
+        run: npm version "$VERSION" --no-git-tag-version --allow-same-version
+
       - name: Build package
         run: npm run build
 
+      - name: Verify npm authentication
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm whoami
+
       - name: Publish package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --provenance
