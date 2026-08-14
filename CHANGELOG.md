@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.0] - 2026-08-14
+
+### 🧠 Reasoning Token Budget Optimizer & Thought-Stream Pruner
+- **Extended Thinking Management**: Added `ReasoningBudgetOptimizer` in `@tokensaveos/output-compressor` to calculate dynamic thinking budgets and prune `<thinking>`/thought tokens from multi-turn histories.
+
+### ⚡ Adaptive Prompt Cache Hit Maximizer (KV-Cache Aligner)
+- **Deterministic Prefix Alignment**: Added `PromptCacheAligner` in `@tokensaveos/prompt-cache` to canonicalize system instructions and tool definitions ahead of dynamic inputs for >85% cache hit rates.
+
+### 📊 Predictive Auto-Tiering Model Router
+- **Multi-Dimensional Query Routing**: Added `PredictiveModelRouter` in `@tokensaveos/agent-router` to dynamically route requests to Flash, Balanced, or Flagship tiers based on code syntax, reasoning depth, and latency SLAs.
+
+### 🛡️ Tool Payload & JSON Output Stripper
+- **Bulk Output Minimizer**: Added `ToolPayloadStripper` in `@tokensaveos/output-compressor` to prune redundant fields, truncate deep arrays, and strip nulls from large agent tool responses.
+
+### 📈 Enterprise FinOps Real-Time Budgeting & Webhook Alerting
+- **Department Allocation & Webhook Alerts**: Added `FinOpsBudgetEngine` in `@tokensaveos/budget-circuit-breaker` for multi-dimensional cost tagging and alert dispatching (Slack, Discord, custom webhooks).
+
+---
+
 ## [2.0.1] - 2026-08-08
 
 ### Changed

@@ -116,3 +116,6 @@ export class OutputCompressor {
     return Math.ceil(text.length * (rates[provider] || 0.25));
   }
 }
+
+export * from './reasoning-optimizer.js';
+export * from './tool-stripper.js';

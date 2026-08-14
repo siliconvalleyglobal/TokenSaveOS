@@ -77,3 +77,15 @@ export interface CacheStats {
   costSavedUSD: number;
   savingsRate?: number;
 }
+
+export interface ReasoningOptimizationConfig {
+  maxThinkingTokens?: number;
+  preserveFinalConclusionsOnly?: boolean;
+  complexityMultiplier?: number;
+}
+
+export interface PromptCacheAlignmentConfig {
+  canonicalizeSystemPrompt?: boolean;
+  deterministicToolOrdering?: boolean;
+  minPrefixTokens?: number;
+}

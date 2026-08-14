@@ -140,3 +140,5 @@ export class PromptCacheManager {
     return (tokens / 1000) * (rates[provider] || 0.002);
   }
 }
+
+export * from './cache-aligner.js';
